@@ -49,7 +49,6 @@ export default function GetAllMovies() {
 
   return (
     <>
-      <h1>Movie List</h1>
       <ul>
         {movieList.map((movie) => (
           <li key={movie.id}>

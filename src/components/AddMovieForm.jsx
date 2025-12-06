@@ -29,7 +29,6 @@ export default function GameForm() {
   return (
     <>
       <div className="row">
-        <h1>Enter Your Movie Here</h1>
         <form onSubmit={handleForm}>
           <div className="mb-1">
             <label className="form-label" htmlFor="movie_title">

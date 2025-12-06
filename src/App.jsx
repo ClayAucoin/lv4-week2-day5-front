@@ -11,8 +11,13 @@ function App() {
     <>
       <div className="card">
         <div className="card-body">
+          <h1>You picked...</h1>
           <GetMovie />
+
+          <h1>Movie List</h1>
           <GetAllMovies />
+
+          <h1>Enter Your Movie Here</h1>
           <AddMovieForm />
         </div>
       </div>
