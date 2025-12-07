@@ -18,6 +18,12 @@ function transformMovie(movieData) {
 export default function GetMovie() {
   const [movie, setMovie] = useState(null)
   const [movieList, setMovieList] = useState([])
+  const [form, setForm] = useState({
+    title: "",
+    year: "",
+    imdb_id: "",
+    // ...initialValues, // prefilled by edit mode
+  })
 
   // build fetch url for ALL movies from env
   const prodUrl = import.meta.env.VITE_PRODUCTION_URL
@@ -64,25 +70,10 @@ export default function GetMovie() {
         "Content-Type": "application/json",
       },
     })
-    refreshMovies()
+    await refreshMovies()
   }
 
-  async function updatemovie(id) {
-    console.log(id)
-  }
-
-  function handleForm(event) {
-    event.preventDefault()
-
-    const movieTitle = event.target.elements.movie_title.value
-    const movieYear = event.target.elements.movie_year.value
-    const imdbID = event.target.elements.imdb_id.value
-
-    const movie = {
-      title: movieTitle,
-      year: movieYear,
-      imdb_id: imdbID,
-    }
+  async function addMovie(movie) {
     console.log(movie)
     fetch(builtUrlAll, {
       method: "POST",
@@ -91,11 +82,44 @@ export default function GetMovie() {
         "Content-Type": "application/json",
       },
     })
-    event.target.elements.movie_title.value = ""
-    event.target.elements.movie_year.value = ""
-    event.target.elements.imdb_id.value = ""
+    // await refreshMovies()
+  }
+
+  async function updatemovie(id) {
+    console.log(id)
+  }
+
+  async function handleForm(event) {
+    event.preventDefault()
+
+    const ete = event.target.elements
+
+    const movieTitle = ete.movie_title.value
+    const movieYear = ete.movie_year.value
+    const imdbID = ete.imdb_id.value
+
+    const movie = {
+      title: movieTitle,
+      year: movieYear,
+      imdb_id: imdbID,
+    }
+    console.log(movie)
+    await addMovie(movie)
+    // fetch(builtUrlAll, {
+    //   method: "POST",
+    //   body: JSON.stringify(movie),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+
+    setForm({ title: "", year: "", imdb_id: "" })
 
     refreshMovies()
+  }
+
+  function updateField(fieldName, value) {
+    setForm((f) => ({ ...f, [fieldName]: value }))
   }
 
   if (!movie) {
@@ -156,6 +180,9 @@ export default function GetMovie() {
               type="text"
               id="movie_title"
               name="movie_title"
+              value={form.title}
+              onChange={(e) => updateField("title", e.target.value)}
+              autoFocus
             />
           </div>
           <div className="mb-1">
@@ -167,6 +194,8 @@ export default function GetMovie() {
               type="number"
               id="movie_year"
               name="movie_year"
+              value={form.year}
+              onChange={(e) => updateField("year", e.target.value)}
             />
           </div>
           <div className="mb-1">
@@ -178,6 +207,8 @@ export default function GetMovie() {
               type="text"
               id="imdb_id"
               name="imdb_id"
+              value={form.imdb_id}
+              onChange={(e) => updateField("imdb_id", e.target.value)}
             />
           </div>
           <div>
