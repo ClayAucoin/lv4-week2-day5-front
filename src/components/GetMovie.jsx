@@ -89,6 +89,11 @@ export default function GetMovie() {
         "Content-Type": "application/json",
       },
     })
+    event.target.elements.movie_title.value = ""
+    event.target.elements.movie_year.value = ""
+    event.target.elements.imdb_id.value = ""
+
+    refreshMovies()
   }
 
   if (!movie) {
