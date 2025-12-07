@@ -128,13 +128,23 @@ export default function GetMovie() {
 
   return (
     <>
-      <h1>You Chose</h1>
       <div className="row">
         <div className="col">
-          <p>Title: {movie.title}</p>
-          <p>Year: {movie.year}</p>
-          <p>IMDB ID: {movie.imdb_id}</p>
-          <p>Genres: {movie.genres}</p>
+          <h1>You Chose</h1>
+          <div className="ms-4">
+            <p>
+              Title: <b>{movie.title}</b>
+            </p>
+            <p>
+              Year: <b>{movie.year}</b>
+            </p>
+            <p>
+              IMDB ID: <b>{movie.imdb_id}</b>
+            </p>
+            <p>
+              Genres: <b>{movie.genres}</b>
+            </p>
+          </div>
 
           <h1 className="mt-2">All Movies</h1>
           <ul>
@@ -162,9 +172,15 @@ export default function GetMovie() {
           </ul>
         </div>
         <div className="col">
-          {movie.poster && (
-            <img src={movie.poster} alt={movie.name} style={{ width: "50%" }} />
-          )}
+          <div className="text-center">
+            {movie.poster && (
+              <img
+                src={movie.poster}
+                alt={movie.name}
+                style={{ width: "50%" }}
+              />
+            )}
+          </div>
 
           <h1 className="mt-4">Add Movie</h1>
           <div className="row">
