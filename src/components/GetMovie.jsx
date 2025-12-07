@@ -1,7 +1,6 @@
 // src/components/GetMovie.jsx
 
 import { useState, useEffect } from "react"
-// import trashCan from "../images/trash.png"
 import refresh from "../images/refresh.png"
 
 function transformMovie(movieData) {
@@ -18,10 +17,13 @@ function transformMovie(movieData) {
 export default function GetMovie() {
   const [movie, setMovie] = useState(null)
   const [movieList, setMovieList] = useState([])
-  const [actionLabel, setActionLabel] = useState("Add Movie")
+  const [actionLabel, setActionLabel] = useState("Add")
   const [staticMovie, setStaticMovie] = useState(
-    "461adc24-e05c-4b7f-ba8d-64075a533675"
+    "b60bdf71-3a42-4efc-bf93-b7a7bf62b99b"
   )
+  // const [staticMovie, setStaticMovie] = useState(
+  //   "461adc24-e05c-4b7f-ba8d-64075a533675"
+  // )
   const [form, setForm] = useState({
     title: "",
     year: "",
@@ -67,6 +69,36 @@ export default function GetMovie() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [staticMovie])
 
+  // add movie
+  async function addMovie(movie) {
+    // console.log(movie)
+    await fetch(builtUrlAll, {
+      method: "POST",
+      body: JSON.stringify(movie),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    await refreshMovieList()
+  }
+
+  // edit/update movie
+  async function updateMovie(movie) {
+    const updateUrl = `${builtUrlAll}${staticMovie}`
+    // console.log(updateUrl)
+    // console.log(movie)
+
+    fetch(updateUrl, {
+      method: "PUT",
+      body: JSON.stringify(movie),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    resetActionLabel()
+    await refreshMovieList()
+  }
+
   // delete movie
   async function deleteMovie(id) {
     // console.log("delete use:", id)
@@ -82,32 +114,6 @@ export default function GetMovie() {
     await refreshMovieList()
   }
 
-  async function addMovie(movie) {
-    // console.log(movie)
-    await fetch(builtUrlAll, {
-      method: "POST",
-      body: JSON.stringify(movie),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-  }
-
-  async function updateMovie(movie) {
-    const updateUrl = `${builtUrlAll}${staticMovie}`
-    // console.log(updateUrl)
-    // console.log(movie)
-
-    fetch(updateUrl, {
-      method: "PUT",
-      body: JSON.stringify(movie),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    await refreshMovieList()
-  }
-
   async function fillEditForm(id) {
     // console.log(id)
     setForm({
@@ -115,7 +121,7 @@ export default function GetMovie() {
       year: movie.year,
       imdb_id: movie.imdb_id,
     })
-    setActionLabel("Edit Movie")
+    setActionLabel("Edit")
     setStaticMovie(id)
   }
 
@@ -136,17 +142,23 @@ export default function GetMovie() {
     }
     // console.log(movie)
 
-    if (actionLabel === "Add Movie") {
+    if (actionLabel === "Add") {
       await addMovie(movie)
     }
-    if (actionLabel === "Edit Movie") {
+    if (actionLabel === "Edit") {
       await updateMovie(movie)
     }
 
     clearFields()
 
-    getSingleMovie()
-    refreshMovieList()
+    await getSingleMovie()
+    await refreshMovieList()
+  }
+
+  function changeStaticMovie(id) {
+    clearFields()
+    resetActionLabel()
+    setStaticMovie(id)
   }
 
   function updateField(fieldName, value) {
@@ -155,6 +167,10 @@ export default function GetMovie() {
 
   function clearFields() {
     setForm({ title: "", year: "", imdb_id: "" })
+  }
+
+  function resetActionLabel() {
+    setActionLabel("Add")
   }
 
   if (!movie) {
@@ -212,7 +228,7 @@ export default function GetMovie() {
               <li key={movie.id}>
                 <a
                   className="fakeLink"
-                  onClick={() => setStaticMovie(movie.id)}
+                  onClick={() => changeStaticMovie(movie.id)}
                 >
                   {movie.title} ({movie.year})
                 </a>{" "}
@@ -239,7 +255,7 @@ export default function GetMovie() {
             )}
           </div>
 
-          <h1 className="mt-4">{actionLabel}</h1>
+          <h1 className="mt-4">{actionLabel} Movie</h1>
           {/* {staticMovie} */}
           <div className="row">
             <form onSubmit={handleForm}>
@@ -287,8 +303,17 @@ export default function GetMovie() {
                 <input
                   className="btn btn-primary"
                   type="submit"
-                  value={actionLabel}
+                  value={`${actionLabel} Movie`}
                 />
+                {actionLabel === "Add" ||
+                  (movie.id != "461adc24-e05c-4b7f-ba8d-64075a533675" && (
+                    <button
+                      onClick={() => deleteMovie(movie.id)}
+                      className="btn btn-primary m-1"
+                    >
+                      Delete Movie
+                    </button>
+                  ))}
               </div>
             </form>
           </div>
