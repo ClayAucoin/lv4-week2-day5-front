@@ -40,6 +40,7 @@ export default function GetMovie() {
       refreshMovies()
     }
     fetchMovies()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // get single movie
@@ -49,6 +50,7 @@ export default function GetMovie() {
       .then(transformMovie)
       .then((movie) => setMovie(movie))
       .catch((error) => console.error("Error fetching:", error))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // delete movie
@@ -169,7 +171,7 @@ export default function GetMovie() {
           </div>
           <div className="mb-1">
             <label className="form-label" htmlFor="imdb_id">
-              IMDB ID
+              IMDB ID (tt1234567)
             </label>
             <input
               className="form-control form-control-sm"
