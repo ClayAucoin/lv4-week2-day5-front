@@ -17,6 +17,19 @@ function transformMovie(movieData) {
 export default function PokemonDisplay() {
   const [movie, setMovie] = useState(null)
 
+  // get path
+  const fullUrl = window.location.href
+  const urlObject = new URL(fullUrl)
+  const path = urlObject.pathname
+
+  console.log("path:", path)
+
+  // const basePath = window.location.pathname
+  //   .replace(/^((?:\/[^/]+){1}).*$/, "$1")
+  //   .replace(/\/$/, "")
+
+  // console.log("basePath:", basePath)
+
   const prodUrl = import.meta.env.VITE_PRODUCTION_URL
   const staticMovie = import.meta.env.VITE_STATIC_MOVIE_ID
   const builtUrl = `${prodUrl}/items/${staticMovie}`
