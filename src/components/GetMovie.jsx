@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 // import trashCan from "../images/trash.png"
-// import edit from "../images/edit.jpg"
+// import refresh from "../images/refresh.png"
 
 function transformMovie(movieData) {
   return {
@@ -186,12 +186,14 @@ export default function GetMovie() {
             >
               Edit Movie
             </button>
-            <button
-              onClick={() => deleteMovie(movie.id)}
-              className="btn btn-primary m-1"
-            >
-              Delete Movie
-            </button>
+            {movie.title != "Monkey Man" && (
+              <button
+                onClick={() => deleteMovie(movie.id)}
+                className="btn btn-primary m-1"
+              >
+                Delete Movie
+              </button>
+            )}
           </div>
 
           <h1 className="mt-2">All Movies</h1>
