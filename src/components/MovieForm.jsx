@@ -14,7 +14,7 @@ export default function MovieForm({
     <>
       <div className="text-center">
         {movie?.poster && (
-          <img src={movie.poster} alt={movie.title} style={{ width: "50%" }} />
+          <img src={movie.poster} alt={movie.title} style={{ width: "40%" }} />
         )}
       </div>
 
